@@ -45,7 +45,8 @@ const module = {
 };
 
 const resolve = {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js'],
+    modules: [path.resolve(path.join(__dirname, 'node_modules'))]
 };
 
 const optimization = {
@@ -73,13 +74,13 @@ const optimization = {
 };
 
 const config: webpack.Configuration = {
+    resolve,
     mode: 'development',
     entry,
     output,
     plugins: [htmlWebpackPlugin],
     devtool: 'source-map',
     module,
-    resolve,
     optimization,
     node:{
         fs: 'empty'

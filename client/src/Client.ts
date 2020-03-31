@@ -1,20 +1,18 @@
 import '../sass/styles.scss';
-import { bootstrap } from 'aurelia-bootstrapper';
 import { LogManager, Aurelia, PLATFORM } from 'aurelia-framework';
 import { ConsoleAppender } from 'aurelia-logging-console';
 import { DialogConfiguration } from 'aurelia-dialog';
 
-bootstrap(async (aurelia: Aurelia) => {
+const configure = async (aurelia: Aurelia) => {
     LogManager.addAppender(new ConsoleAppender());
     LogManager.setLevel(LogManager.logLevel.debug);
 
+    const aureliaDialogPlugin = PLATFORM.moduleName('aurelia-dialog');
+
     aurelia.use
-        .defaultBindingLanguage()
-        .defaultResources()
-        .history()
-        .router()
-        .eventAggregator()
-        .plugin('aurelia-dialog', (config: DialogConfiguration) => {
+        .standardConfiguration()
+        .developmentLogging()
+        .plugin(aureliaDialogPlugin, (config: DialogConfiguration) => {
             config.useDefaults();
             config.settings.lock = true;
             config.settings.centerHorizontalOnly = false;
@@ -24,4 +22,6 @@ bootstrap(async (aurelia: Aurelia) => {
 
     await aurelia.start();
     await aurelia.setRoot(PLATFORM.moduleName('aurelia-app'), document.getElementById('app') as HTMLElement);
-});
+};
+
+configure(new Aurelia());
