@@ -1,0 +1,6 @@
+<template bindable="router">
+  <div>${router.title}</div>
+  <div repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+    <a href.bind="row.href">${row.title}</a>
+  </div>
+</template>
